@@ -19,10 +19,10 @@ macropad.display_image("sd/{}.bmp".format(currApp))
 key = macropad.Keycode
 
 figmaBindings = [
-    (key.OPTION, key.EIGHT), (key.OPTION, key.NINE,), (key.COMMAND, key.FORWARD_SLASH),
+    (key.OPTION, key.EIGHT), (key.OPTION, key.NINE,), (key.SHIFT, key.A),
     (key.ENTER, ), (key.OPTION, key.W), (key.BACKSLASH, ),
     (key.OPTION, key.A), (key.OPTION, key.H), (key.OPTION, key.D),
-    (key.SHIFT, key.A), (key.OPTION, key.S), (key.COMMAND, )
+    (key.COMMAND, key.FORWARD_SLASH), (key.OPTION, key.S), (key.COMMAND, )
 ]
 
 colors = [
