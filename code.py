@@ -11,9 +11,10 @@ from adafruit_macropad import MacroPad
 macropad = MacroPad()
 encoderValue = macropad.encoder
 buttonValue = macropad.encoder_switch
-brightness = 100
+brightness = .35
+macropad.pixels.brightness = brightness
 
-apps = ["Figma", "OnShape", "Numpad"]
+apps = ["Figma", "OnShape", "Numpad", "off"]
 currApp = "Figma"
 macropad.display_image("sd/{}.bmp".format(currApp))
 key = macropad.Keycode
@@ -28,7 +29,8 @@ figmaBindings = [
 colors = [
     (242,78,30), (225, 114, 98),
     (162, 89, 255), (26, 188, 254),
-    (10, 207, 80), (255, 255, 255)
+    (10, 207, 80), (255, 255, 255),
+    (0, 0, 0)
 ]
 
 figmaColors = [
@@ -66,16 +68,32 @@ numPadColors = [
     colors[3], colors[2], colors[4],
 ]
 
+offBindings = [
+    (key.SHIFT, ), (key.SHIFT, ), (key.SHIFT, ),
+    (key.SHIFT, ), (key.SHIFT, ), (key.SHIFT, ),
+    (key.SHIFT, ), (key.SHIFT, ), (key.SHIFT, ),
+    (key.SHIFT, ), (key.SHIFT, ), (key.SHIFT, ),
+]
+
+offColors = [
+    colors[6], colors[6], colors[6],
+    colors[6], colors[6], colors[6],
+    colors[6], colors[6], colors[6],
+    colors[6], colors[6], colors[6],
+]
+
 keyBindings = [
     figmaBindings,
     onShapeBindings,
-    numpadBindings
+    numpadBindings,
+    offBindings
 ]
 
 colors = [
     figmaColors,
     onShapeColors,
-    numPadColors
+    numPadColors,
+    offColors
 ]
 
 def runKey(key):
@@ -87,8 +105,15 @@ def updateApp():
     global currApp
     currApp = apps[encoderValue % len(apps)]
     for i in range(12):
-        macropad.pixels[i] = tuple(value * (brightness / 255) for value in colors[apps.index(currApp)][i])
-    macropad.display_image("sd/{}.bmp".format(currApp))
+        # macropad.pixels[i] = tuple(value * (brightness / 255) for value in colors[apps.index(currApp)][i])
+        macropad.pixels[i] = colors[apps.index(currApp)][i]
+    if currApp == "off":
+        macropad.pixels.brightness = 0
+        macropad.display_sleep = True
+    else:
+        macropad.display_sleep = False
+        macropad.pixels.brightness = brightness
+        macropad.display_image("sd/{}.bmp".format(currApp))
 
 updateApp()
 
