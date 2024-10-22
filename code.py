@@ -68,7 +68,7 @@ arcBindings = [
 arcColors = [
     colors[2], colors[2], colors[2],
     colors[2], colors[2], colors[2],
-    colors[2], colors[2], colors[2],
+    colors[3], colors[3], colors[3],
     colors[4], colors[4], colors[4],
 ]
 
