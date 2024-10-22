@@ -14,7 +14,11 @@ buttonValue = macropad.encoder_switch
 brightness = .5
 macropad.pixels.brightness = brightness
 
-apps = ["Figma", "OnShape", "Numpad", "Arc", "off"]
+apps = ["Figma", 
+        "Arc", 
+        "OnShape", 
+        "Numpad", 
+        "off"]
 currApp = "Figma"
 macropad.display_image("sd/{}.bmp".format(currApp))
 key = macropad.Keycode
@@ -98,17 +102,17 @@ offColors = [
 
 keyBindings = [
     figmaBindings,
+    arcBindings,
     onShapeBindings,
     numpadBindings,
-    arcBindings,
     offBindings,
 ]
 
 colors = [
     figmaColors,
+    arcColors,
     onShapeColors,
     numPadColors,
-    arcColors,
     offColors,
 ]
 
