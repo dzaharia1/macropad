@@ -11,26 +11,26 @@ from adafruit_macropad import MacroPad
 macropad = MacroPad()
 encoderValue = macropad.encoder
 buttonValue = macropad.encoder_switch
-brightness = .35
+brightness = .5
 macropad.pixels.brightness = brightness
 
-apps = ["Figma", "OnShape", "Numpad", "off"]
+apps = ["Figma", "OnShape", "Numpad", "Arc", "off"]
 currApp = "Figma"
 macropad.display_image("sd/{}.bmp".format(currApp))
 key = macropad.Keycode
-
-figmaBindings = [
-    (key.OPTION, key.EIGHT), (key.OPTION, key.NINE,), (key.SHIFT, key.A),
-    (key.ENTER, ), (key.OPTION, key.W), (key.BACKSLASH, ),
-    (key.OPTION, key.A), (key.OPTION, key.H), (key.OPTION, key.D),
-    (key.COMMAND, key.FORWARD_SLASH), (key.OPTION, key.S), (key.COMMAND, )
-]
 
 colors = [
     (242,78,30), (225, 114, 98),
     (162, 89, 255), (26, 188, 254),
     (10, 207, 80), (255, 255, 255),
     (0, 0, 0)
+]
+
+figmaBindings = [
+    (key.OPTION, key.EIGHT), (key.OPTION, key.NINE,), (key.SHIFT, key.A),
+    (key.ENTER, ), (key.OPTION, key.W), (key.BACKSLASH, ),
+    (key.OPTION, key.A), (key.OPTION, key.H), (key.OPTION, key.D),
+    (key.COMMAND, key.FORWARD_SLASH), (key.OPTION, key.S), (key.COMMAND, )
 ]
 
 figmaColors = [
@@ -52,6 +52,20 @@ onShapeColors = [
     colors[4], colors[4], colors[4],
     colors[3], colors[3], colors[3],
     colors[3], colors[3], colors[3],
+]
+
+arcBindings = [
+    (key.CONTROL, key.ONE), (key.CONTROL, key.TWO), (key.CONTROL, key.THREE),
+    (key.CONTROL, key.FOUR), (key.CONTROL, key.FIVE), (key.CONTROL, key.SIX),
+    (key.COMMAND, key.SHIFT, key.C), (key.COMMAND, key.S), (key.CONTROL, key.TAB),
+    (key.COMMAND, key.CONTROL, key.N ), (key.COMMAND, key.W), (key.COMMAND, key.T)
+]
+
+arcColors = [
+    colors[2], colors[2], colors[2],
+    colors[2], colors[2], colors[2],
+    colors[2], colors[2], colors[2],
+    colors[4], colors[4], colors[4],
 ]
 
 numpadBindings = [
@@ -86,14 +100,16 @@ keyBindings = [
     figmaBindings,
     onShapeBindings,
     numpadBindings,
-    offBindings
+    arcBindings,
+    offBindings,
 ]
 
 colors = [
     figmaColors,
     onShapeColors,
     numPadColors,
-    offColors
+    arcColors,
+    offColors,
 ]
 
 def runKey(key):
