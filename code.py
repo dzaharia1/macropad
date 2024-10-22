@@ -58,7 +58,7 @@ arcBindings = [
     (key.CONTROL, key.ONE), (key.CONTROL, key.TWO), (key.CONTROL, key.THREE),
     (key.CONTROL, key.FOUR), (key.CONTROL, key.FIVE), (key.CONTROL, key.SIX),
     (key.COMMAND, key.SHIFT, key.C), (key.COMMAND, key.S), (key.CONTROL, key.TAB),
-    (key.COMMAND, key.CONTROL, key.N ), (key.COMMAND, key.W), (key.COMMAND, key.T)
+    (key.COMMAND, key.N ), (key.COMMAND, key.W), (key.COMMAND, key.T)
 ]
 
 arcColors = [
