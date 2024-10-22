@@ -14,7 +14,7 @@ buttonValue = macropad.encoder_switch
 brightness = .5
 macropad.pixels.brightness = brightness
 
-apps = ["Figma", 
+layers = ["Figma", 
         "Arc", 
         "OnShape", 
         "Numpad", 
@@ -117,16 +117,16 @@ colors = [
 ]
 
 def runKey(key):
-    print("{} {}".format(apps.index(currApp), key))
-    print(keyBindings[apps.index(currApp)][key])
-    macropad.keyboard.press(*keyBindings[apps.index(currApp)][key])
+    print("{} {}".format(layers.index(currApp), key))
+    print(keyBindings[layers.index(currApp)][key])
+    macropad.keyboard.press(*keyBindings[layers.index(currApp)][key])
 
-def updateApp():
+def updateLayer():
     global currApp
-    currApp = apps[encoderValue % len(apps)]
+    currApp = layers[encoderValue % len(layers)]
     for i in range(12):
-        # macropad.pixels[i] = tuple(value * (brightness / 255) for value in colors[apps.index(currApp)][i])
-        macropad.pixels[i] = colors[apps.index(currApp)][i]
+        # macropad.pixels[i] = tuple(value * (brightness / 255) for value in colors[layers.index(currApp)][i])
+        macropad.pixels[i] = colors[layers.index(currApp)][i]
     if currApp == "off":
         macropad.pixels.brightness = 0
         macropad.display_sleep = True
@@ -135,7 +135,7 @@ def updateApp():
         macropad.pixels.brightness = brightness
         macropad.display_image("sd/{}.bmp".format(currApp))
 
-updateApp()
+updateLayer()
 
 while True:
     lastEncoderValue = encoderValue
@@ -150,7 +150,7 @@ while True:
         macropad.keyboard.release_all()
 
     if lastEncoderValue != encoderValue:
-        updateApp()
+        updateLayer()
 
     # displayText.show()
     time.sleep(0.1)
