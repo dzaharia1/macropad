@@ -1,10 +1,15 @@
 import time
 from adafruit_macropad import MacroPad
+import os
 
 macropad = MacroPad()
 encoderValue = macropad.encoder
 buttonValue = macropad.encoder_switch
-brightness = .5
+
+fullBrightness = 1
+midBrightness = .25
+lowBrightness = .1
+brightness = fullBrightness
 macropad.pixels.brightness = brightness
 
 layers = ["Figma", 
@@ -147,7 +152,7 @@ def read_mode_from_file():
             print(startingLayer)
             updateLayer()
             return file.read().strip()
-    except FileNotFoundError:
+    except:
         print("File not found")
         return None
     
@@ -188,15 +193,17 @@ while True:
         updateLayer()
     
     if lastEncoderButtonValue != buttonValue and buttonValue:
-        if brightness == .5:
-            brightness = .25
-        elif brightness == .25:
-            brightness = .1
+        if brightness == fullBrightness:
+            brightness = midBrightness
+        elif brightness == midBrightness:
+            brightness = lowBrightness
         else:
-            brightness = .5
+            brightness = fullBrightness
         updateLayer()
             
 
     # displayText.show()
     time.sleep(0.1)
+
+
 
