@@ -9,7 +9,8 @@ macropad.pixels.brightness = brightness
 
 layers = ["Figma", 
         "Arc", 
-        "OnShape", 
+        "OnShape",
+        "Game", 
         "Numpad", 
         "off"]
 currLayer = "Figma"
@@ -66,6 +67,20 @@ arcColors = [
     colors[4], colors[4], colors[4],
 ]
 
+gameBindings = [
+    (key.TAB, ), (key.ONE, ), (key.TWO, ),
+    (key.Q, ), (key.W, ), (key.E, ),
+    (key.A, ), (key.S, ), (key.D, ),
+    (key.SHIFT, ), (key.COMMAND, ), (key.SPACE, )
+]
+
+gameColors = [
+    colors[4], colors[4], colors[4], 
+    colors[2], colors[3], colors[2],
+    colors[3], colors[3], colors[3],
+    colors[0], colors[0], colors[1],
+]
+
 numpadBindings = [
     (key.KEYPAD_ONE, ), (key.KEYPAD_TWO, ), (key.KEYPAD_THREE, ),
     (key.KEYPAD_FOUR, ), (key.KEYPAD_FIVE, ), (key.KEYPAD_SIX, ),
@@ -98,6 +113,7 @@ keyBindings = [
     figmaBindings,
     arcBindings,
     onShapeBindings,
+    gameBindings,
     numpadBindings,
     offBindings,
 ]
@@ -106,6 +122,7 @@ colors = [
     figmaColors,
     arcColors,
     onShapeColors,
+    gameColors,
     numPadColors,
     offColors,
 ]
