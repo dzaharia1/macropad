@@ -161,7 +161,7 @@ while True:
     buttonValue = macropad.encoder_switch
     
     key_event = macropad.keys.events.get()
-    if key_event and key_event.pressed:
+    if key_event and key_event.pressed and currLayer != "off":
         runKey(key_event.key_number)
     if key_event and key_event.released:
         macropad.keyboard.release_all()
@@ -172,6 +172,8 @@ while True:
     
     if lastEncoderButtonValue != buttonValue and buttonValue:
         if brightness == .5:
+            brightness = .25
+        elif brightness == .25:
             brightness = .1
         else:
             brightness = .5
