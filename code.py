@@ -169,6 +169,14 @@ while True:
     if lastEncoderValue != encoderValue:
         currLayer = layers[(encoderValue + startingLayer) % len(layers)]
         updateLayer()
+    
+    if lastEncoderButtonValue != buttonValue and buttonValue:
+        if brightness == .5:
+            brightness = .1
+        else:
+            brightness = .5
+        updateLayer()
+            
 
     # displayText.show()
     time.sleep(0.1)
