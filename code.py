@@ -1,10 +1,3 @@
-# SPDX-FileCopyrightText: Copyright (c) 2021 Kattni Rembor for Adafruit Industries
-#
-# SPDX-License-Identifier: Unlicense
-"""
-Simpletest demo for MacroPad. Prints the key pressed, the relative position of the rotary
-encoder, and the state of the rotary encoder switch to the serial console.
-"""
 import time
 from adafruit_macropad import MacroPad
 
@@ -19,8 +12,9 @@ layers = ["Figma",
         "OnShape", 
         "Numpad", 
         "off"]
-currApp = "Figma"
-macropad.display_image("sd/{}.bmp".format(currApp))
+currLayer = "Figma"
+startingLayer = 0
+macropad.display_image("sd/{}.bmp".format(currLayer))
 key = macropad.Keycode
 
 colors = [
@@ -117,25 +111,48 @@ colors = [
 ]
 
 def runKey(key):
-    print("{} {}".format(layers.index(currApp), key))
-    print(keyBindings[layers.index(currApp)][key])
-    macropad.keyboard.press(*keyBindings[layers.index(currApp)][key])
+    print("{} {}".format(layers.index(currLayer), key))
+    print(keyBindings[layers.index(currLayer)][key])
+    macropad.keyboard.press(*keyBindings[layers.index(currLayer)][key])
 
+def save_mode_to_file(mode):
+    with open("/sd/layer.txt", "w") as file:
+        file.write(mode)
+
+def read_mode_from_file():
+    global currLayer
+    global startingLayer
+    
+    try:
+        with open("/sd/layer.txt", "r") as file:
+            currLayer = file.read().strip()
+            startingLayer = layers.index(currLayer)
+            print(startingLayer)
+            updateLayer()
+            return file.read().strip()
+    except FileNotFoundError:
+        print("File not found")
+        return None
+    
 def updateLayer():
-    global currApp
-    currApp = layers[encoderValue % len(layers)]
+    global currLayer
     for i in range(12):
-        # macropad.pixels[i] = tuple(value * (brightness / 255) for value in colors[layers.index(currApp)][i])
-        macropad.pixels[i] = colors[layers.index(currApp)][i]
-    if currApp == "off":
+        # macropad.pixels[i] = tuple(value * (brightness / 255) for value in colors[layers.index(currLayer)][i])
+        macropad.pixels[i] = colors[layers.index(currLayer)][i]
+    if currLayer == "off":
         macropad.pixels.brightness = 0
         macropad.display_sleep = True
     else:
         macropad.display_sleep = False
         macropad.pixels.brightness = brightness
-        macropad.display_image("sd/{}.bmp".format(currApp))
+        macropad.display_image("sd/{}.bmp".format(currLayer))
 
-updateLayer()
+    save_mode_to_file(currLayer)
+
+read_mode_from_file()
+# time.sleep(.2)
+# print(currLayer)
+# updateLayer()
 
 while True:
     lastEncoderValue = encoderValue
@@ -150,7 +167,9 @@ while True:
         macropad.keyboard.release_all()
 
     if lastEncoderValue != encoderValue:
+        currLayer = layers[(encoderValue + startingLayer) % len(layers)]
         updateLayer()
 
     # displayText.show()
     time.sleep(0.1)
+
