@@ -47,15 +47,15 @@ figmaColors = [
 onShapeBindings = [
     (key.Q, ), (key.L, ), (key.G,),
     (key.C, ), (key.U, ), (key.O, ),
-    (key.D, ), (key.SHIFT, key.L, ), (key.SHIFT, key.O ),
-    (key.T, ), (key.E, ), (key.I, ),
+    (key.D, ), (key.SHIFT, key.O, ), (key.SHIFT, key.T ),
+    (key.E, ), (key.I, ), (key.ESCAPE, ),
 ]
 
 onShapeColors = [
     colors[4], colors[4], colors[4],
     colors[4], colors[4], colors[4],
     colors[3], colors[3], colors[3],
-    colors[3], colors[3], colors[3],
+    colors[3], colors[3], colors[1],
 ]
 
 arcBindings = [
