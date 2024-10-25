@@ -24,7 +24,7 @@ macropad.display_image("sd/{}.bmp".format(currLayer))
 key = macropad.Keycode
 
 colors = [
-    (242,78,30), (225, 114, 98),
+    (242,45,40), (242,78,30),
     (162, 89, 255), (26, 188, 254),
     (10, 207, 80), (255, 255, 255),
     (0, 0, 0)
@@ -47,7 +47,7 @@ figmaColors = [
 onShapeBindings = [
     (key.Q, ), (key.L, ), (key.G,),
     (key.C, ), (key.U, ), (key.O, ),
-    (key.D, ), (key.SHIFT, key.O, ), (key.SHIFT, key.T ),
+    (key.D, ), (key.SHIFT, key.O, ), (key.T, ),
     (key.E, ), (key.I, ), (key.ESCAPE, ),
 ]
 
@@ -55,7 +55,7 @@ onShapeColors = [
     colors[4], colors[4], colors[4],
     colors[4], colors[4], colors[4],
     colors[3], colors[3], colors[3],
-    colors[3], colors[3], colors[1],
+    colors[3], colors[3], colors[0],
 ]
 
 arcBindings = [
@@ -69,7 +69,7 @@ arcColors = [
     colors[2], colors[2], colors[2],
     colors[2], colors[2], colors[2],
     colors[3], colors[3], colors[3],
-    colors[4], colors[4], colors[4],
+    colors[4], colors[0], colors[4],
 ]
 
 gameBindings = [
@@ -204,6 +204,7 @@ while True:
 
     # displayText.show()
     time.sleep(0.1)
+
 
 
 
