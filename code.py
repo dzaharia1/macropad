@@ -7,8 +7,8 @@ encoderValue = macropad.encoder
 buttonValue = macropad.encoder_switch
 
 fullBrightness = 1
-midBrightness = .25
-lowBrightness = .1
+midBrightness = .45
+lowBrightness = .2
 brightness = fullBrightness
 macropad.pixels.brightness = brightness
 
@@ -76,7 +76,7 @@ gameBindings = [
     (key.TAB, ), (key.ONE, ), (key.TWO, ),
     (key.Q, ), (key.W, ), (key.E, ),
     (key.A, ), (key.S, ), (key.D, ),
-    (key.SHIFT, ), (key.COMMAND, ), (key.SPACE, )
+    (key.SHIFT, ), (key.OPTION, ), (key.SPACE, )
 ]
 
 gameColors = [
@@ -133,9 +133,11 @@ colors = [
 ]
 
 def runKey(key):
-    print("{} {}".format(layers.index(currLayer), key))
-    print(keyBindings[layers.index(currLayer)][key])
     macropad.keyboard.press(*keyBindings[layers.index(currLayer)][key])
+
+def release(key):
+    macropad.keyboard.release(*keyBindings[layers.index(currLayer)][key])
+    
 
 def save_mode_to_file(mode):
     with open("/sd/layer.txt", "w") as file:
@@ -186,7 +188,8 @@ while True:
     if key_event and key_event.pressed and currLayer != "off":
         runKey(key_event.key_number)
     if key_event and key_event.released:
-        macropad.keyboard.release_all()
+        # macropad.keyboard.release_all()
+        release(key_event.key_number)
 
     if lastEncoderValue != encoderValue:
         currLayer = layers[(encoderValue + startingLayer) % len(layers)]
@@ -204,7 +207,3 @@ while True:
 
     # displayText.show()
     time.sleep(0.1)
-
-
-
-
