@@ -6,8 +6,8 @@ macropad = MacroPad()
 encoderValue = macropad.encoder
 buttonValue = macropad.encoder_switch
 
-fullBrightness = 1
-midBrightness = .45
+fullBrightness = .9
+midBrightness = .4
 lowBrightness = .2
 brightness = fullBrightness
 macropad.pixels.brightness = brightness
