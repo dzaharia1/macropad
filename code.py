@@ -1,27 +1,20 @@
 import time
 from adafruit_macropad import MacroPad
 import os
+import json
 
 macropad = MacroPad()
 encoderValue = macropad.encoder
 buttonValue = macropad.encoder_switch
 
-fullBrightness = .9
+fullBrightness = .7
 midBrightness = .4
-lowBrightness = .2
+lowBrightness = .1
 brightness = fullBrightness
 macropad.pixels.brightness = brightness
 
-layers = ["Figma", 
-        "Arc", 
-        "OnShape",
-        "Game", 
-        "Numpad", 
-        "off"]
-currLayer = "Figma"
-startingLayer = 0
-macropad.display_image("sd/{}.bmp".format(currLayer))
 key = macropad.Keycode
+print(dir(key))
 
 colors = [
     (242,45,40), (242,78,30),
@@ -31,14 +24,14 @@ colors = [
 ]
 
 figmaBindings = [
-    (key.OPTION, key.EIGHT), (key.OPTION, key.NINE,), (key.SHIFT, key.A),
-    (key.ENTER, ), (key.OPTION, key.W), (key.BACKSLASH, ),
-    (key.OPTION, key.A), (key.OPTION, key.H), (key.OPTION, key.D),
-    (key.COMMAND, key.FORWARD_SLASH), (key.OPTION, key.S), (key.COMMAND, )
+    (key.SHIFT, key.A), (key.OPTION, key.EIGHT), (key.OPTION, key.NINE,),
+    (key.COMMAND, key.SHIFT, key.R ), (key.OPTION, key.W), (key.BACKSLASH, ),
+    (key.OPTION, key.A), (key.OPTION, key.H, key.V), (key.OPTION, key.D),
+    (key.COMMAND, key.OPTION, key.C), (key.OPTION, key.S), (key.COMMAND, key.OPTION, key.V)
 ]
 
 figmaColors = [
-    colors[0], colors[0], colors[1],
+    colors[1], colors[0], colors[0],
     colors[2], colors[3], colors[2],
     colors[3], colors[3], colors[3],
     colors[4], colors[3], colors[4],
@@ -94,10 +87,14 @@ numpadBindings = [
 ]
 
 numPadColors = [
-    colors[3], colors[3], colors[3],
-    colors[3], colors[3], colors[3],
-    colors[3], colors[3], colors[3],
-    colors[3], colors[2], colors[4],
+    colors[4], colors[4], colors[4],
+    colors[4], colors[4], colors[4],
+    colors[4], colors[4], colors[4],
+    colors[4], colors[0], colors[1],
+]
+
+clipBoardBindings = [
+    (key.COMMAND, key.V), (key.COMMAND, ), (key.COMMAND, ),
 ]
 
 offBindings = [
@@ -111,49 +108,144 @@ offColors = [
     colors[6], colors[6], colors[6],
     colors[6], colors[6], colors[6],
     colors[6], colors[6], colors[6],
-    colors[6], colors[6], colors[6],
+    colors[6], colors[3], colors[1],
 ]
 
+clipboardColors = [
+    colors[0], colors[0], colors[0],
+    colors[4], colors[4], colors[4],
+    colors[4], colors[4], colors[4],
+    colors[4], colors[4], colors[4],
+]
+
+layers = [
+        "OnShape",
+        "Arc", 
+        "Clipboard",
+        "Figma", 
+        "Numpad", 
+        "off"]
+currLayer = "Clipboard"
+startingLayer = 0
+macropad.display_image("sd/{}.bmp".format(currLayer))
+
 keyBindings = [
-    figmaBindings,
-    arcBindings,
     onShapeBindings,
-    gameBindings,
+    arcBindings,
+    [],
+    figmaBindings,
     numpadBindings,
     offBindings,
 ]
 
 colors = [
-    figmaColors,
-    arcColors,
     onShapeColors,
-    gameColors,
+    arcColors,
+    clipboardColors,
+    figmaColors,
     numPadColors,
     offColors,
 ]
 
-def runKey(key):
-    macropad.keyboard.press(*keyBindings[layers.index(currLayer)][key])
+def runKey(keyIndex):
+    if currLayer == "Clipboard":
+        runClipBoard(keyIndex)
+    else:
+        macropad.keyboard.press(*keyBindings[layers.index(currLayer)][keyIndex])
 
-def release(key):
-    macropad.keyboard.release(*keyBindings[layers.index(currLayer)][key])
+def release(keyIndex):
+    macropad.keyboard.release(*keyBindings[layers.index(currLayer)][keyIndex])
+
+def runClipBoard(keyIndex):
+    easeDuration = 0.1
+    macropad.keyboard.send(*(key.COMMAND, key.C))
+    time.sleep(easeDuration)
+
+    if keyIndex == 0:
+        macropad.keyboard.send(*(key.COMMAND, key.SHIFT, key.V))
+        time.sleep(easeDuration)
+        macropad.keyboard.send(*(key.SHIFT, key.ENTER))
+    if keyIndex == 1:
+        macropad.keyboard.send(*(key.COMMAND, key.V))
+    if keyIndex == 2:
+        macropad.keyboard.send(*(key.COMMAND, key.SHIFT, key.V))
+    if keyIndex == 3:
+        macropad.keyboard.send(*(key.LEFT_BRACKET, ))
+        macropad.keyboard.send(*(key.COMMAND, key.V))
+        time.sleep(easeDuration)
+        macropad.keyboard.send(*(key.RIGHT_BRACKET, ))
+    if keyIndex == 4:
+        macropad.keyboard.send(*(key.SHIFT, key.NINE, ))
+        macropad.keyboard.send(*(key.COMMAND, key.V))
+        time.sleep(easeDuration)
+        macropad.keyboard.send(*(key.SHIFT, key.ZERO, ))
+    if keyIndex == 5:
+        macropad.keyboard.send(*(key.SHIFT, key.LEFT_BRACKET, ))
+        macropad.keyboard.send(*(key.COMMAND, key.V))
+        time.sleep(easeDuration)
+        macropad.keyboard.send(*(key.SHIFT, key.RIGHT_BRACKET, ))
+    if keyIndex == 6:
+        macropad.keyboard.send(*(key.SHIFT, key.QUOTE))
+        macropad.keyboard.send(*(key.COMMAND, key.V))
+        time.sleep(easeDuration)
+        macropad.keyboard.send(*(key.SHIFT, key.QUOTE))
+    if keyIndex == 7:
+        macropad.keyboard.send(*(key.QUOTE, ))
+        macropad.keyboard.send(*(key.COMMAND, key.V))
+        time.sleep(easeDuration)
+        macropad.keyboard.send(*(key.QUOTE, ))
+    if keyIndex == 8:
+        macropad.keyboard_layout.write("`")
+        macropad.keyboard.send(*(key.COMMAND, key.V))
+        time.sleep(easeDuration)
+        macropad.keyboard_layout.write("`")
+    if keyIndex == 9:
+        macropad.keyboard.send(*(key.SHIFT, key.EIGHT))
+        macropad.keyboard.send(*(key.COMMAND, key.V))
+        time.sleep(easeDuration)
+        macropad.keyboard.send(*(key.SHIFT, key.EIGHT))
+    if keyIndex == 10:
+        macropad.keyboard.send(*(key.SHIFT, key.EIGHT))
+        macropad.keyboard.send(*(key.SHIFT, key.EIGHT))
+        macropad.keyboard.send(*(key.COMMAND, key.V))
+        time.sleep(easeDuration)
+        macropad.keyboard.send(*(key.SHIFT, key.EIGHT))
+        macropad.keyboard.send(*(key.SHIFT, key.EIGHT))
+    if keyIndex == 11:
+        macropad.keyboard_layout.write("```")
+        macropad.keyboard.send(*(key.RETURN, ))
+        macropad.keyboard.send(*(key.COMMAND, key.V))
+        time.sleep(easeDuration)
+        macropad.keyboard.send(*(key.RETURN, ))
+        macropad.keyboard_layout.write("```")
+
+def save_settings_to_file():
+    global currLayer
+    global brightness
+
+    settings = {
+        "layer": currLayer,
+        "brightness": brightness
+    }
     
-
-def save_mode_to_file(mode):
     with open("/sd/layer.txt", "w") as file:
-        file.write(mode)
+        json.dump(settings, file)
 
-def read_mode_from_file():
+def read_settings_from_file():
     global currLayer
     global startingLayer
+    global brightness
     
     try:
         with open("/sd/layer.txt", "r") as file:
-            currLayer = file.read().strip()
+            settings = json.load(file)
+            currLayer = settings["layer"]
+            brightness = settings["brightness"]
             startingLayer = layers.index(currLayer)
             print(startingLayer)
+            print(brightness)
             updateLayer()
-            return file.read().strip()
+            return settings
     except:
         print("File not found")
         return None
@@ -171,9 +263,9 @@ def updateLayer():
         macropad.pixels.brightness = brightness
         macropad.display_image("sd/{}.bmp".format(currLayer))
 
-    save_mode_to_file(currLayer)
+    save_settings_to_file()
 
-read_mode_from_file()
+read_settings_from_file()
 # time.sleep(.2)
 # print(currLayer)
 # updateLayer()
@@ -187,8 +279,7 @@ while True:
     key_event = macropad.keys.events.get()
     if key_event and key_event.pressed and currLayer != "off":
         runKey(key_event.key_number)
-    if key_event and key_event.released:
-        # macropad.keyboard.release_all()
+    if key_event and key_event.released and currLayer != "Clipboard":
         release(key_event.key_number)
 
     if lastEncoderValue != encoderValue:
@@ -207,3 +298,6 @@ while True:
 
     # displayText.show()
     time.sleep(0.1)
+
+
+

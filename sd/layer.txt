@@ -1,1 +1,1 @@
-Figma
+{"layer": "off", "brightness": 0.7}
