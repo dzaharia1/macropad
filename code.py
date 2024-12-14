@@ -7,7 +7,7 @@ macropad = MacroPad()
 encoderValue = macropad.encoder
 buttonValue = macropad.encoder_switch
 
-fullBrightness = .7
+fullBrightness = 1
 midBrightness = .4
 lowBrightness = .1
 brightness = fullBrightness
@@ -298,6 +298,7 @@ while True:
 
     # displayText.show()
     time.sleep(0.1)
+
 
 
 
