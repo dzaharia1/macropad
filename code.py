@@ -298,7 +298,3 @@ while True:
 
     # displayText.show()
     time.sleep(0.1)
-
-
-
-
