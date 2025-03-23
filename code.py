@@ -119,10 +119,10 @@ clipboardColors = [
 ]
 
 layers = [
-        "OnShape",
         "Arc", 
-        "Clipboard",
         "Figma", 
+        "OnShape",
+        "Clipboard",
         "Numpad", 
         "off"]
 currLayer = "Clipboard"
@@ -130,19 +130,19 @@ startingLayer = 0
 macropad.display_image("sd/{}.bmp".format(currLayer))
 
 keyBindings = [
-    onShapeBindings,
     arcBindings,
-    [],
     figmaBindings,
+    onShapeBindings,
+    [],
     numpadBindings,
     offBindings,
 ]
 
 colors = [
-    onShapeColors,
     arcColors,
-    clipboardColors,
     figmaColors,
+    onShapeColors,
+    clipboardColors,
     numPadColors,
     offColors,
 ]
