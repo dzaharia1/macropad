@@ -24,8 +24,8 @@ colors = [
 ]
 
 figmaBindings = [
-    (key.SHIFT, key.A), (key.OPTION, key.EIGHT), (key.OPTION, key.NINE,),
-    (key.COMMAND, key.SHIFT, key.R ), (key.OPTION, key.W), (key.BACKSLASH, ),
+    (key.COMMAND, key.SHIFT, key.C), (key.OPTION, key.EIGHT), (key.OPTION, key.NINE,),
+    (key.COMMAND, key.SHIFT, key.R ), (key.OPTION, key.W), (key.COMMAND, key.OPTION, key.A ),
     (key.OPTION, key.A), (key.OPTION, key.H, key.V), (key.OPTION, key.D),
     (key.COMMAND, key.OPTION, key.C), (key.OPTION, key.S), (key.COMMAND, key.OPTION, key.V)
 ]
@@ -97,6 +97,23 @@ clipBoardBindings = [
     (key.COMMAND, key.V), (key.COMMAND, ), (key.COMMAND, ),
 ]
 
+docsBindings = [
+    (key.COMMAND, key.OPTION, key.ONE), (key.COMMAND, key.LEFT_BRACKET), (key.COMMAND, key.RIGHT_BRACKET),
+    (key.COMMAND, key.OPTION, key.TWO), (key.COMMAND, key.SHIFT, key.EIGHT), (key.COMMAND, key.SHIFT, key.SEVEN),
+    (key.COMMAND, key.OPTION, key.THREE), (), (),
+    (key.COMMAND, key.OPTION, key.FOUR), (key.COMMAND, key.OPTION, key.ZERO), ()
+]
+
+dir(key)
+
+docsColors = [
+    colors[4], colors[4], colors[4],
+    colors[4], colors[3], colors[3],
+    colors[4], colors[6], colors[6],
+    colors[4], colors[0], colors[1],
+]
+
+
 offBindings = [
     (key.SHIFT, ), (key.SHIFT, ), (key.SHIFT, ),
     (key.SHIFT, ), (key.SHIFT, ), (key.SHIFT, ),
@@ -122,10 +139,10 @@ layers = [
         "Arc", 
         "Figma", 
         "OnShape",
-        "Clipboard",
+        "Docs",
         "Numpad", 
         "off"]
-currLayer = "Clipboard"
+currLayer = "Docs"
 startingLayer = 0
 macropad.display_image("sd/{}.bmp".format(currLayer))
 
@@ -133,7 +150,7 @@ keyBindings = [
     arcBindings,
     figmaBindings,
     onShapeBindings,
-    [],
+    docsBindings,
     numpadBindings,
     offBindings,
 ]
@@ -142,19 +159,31 @@ colors = [
     arcColors,
     figmaColors,
     onShapeColors,
-    clipboardColors,
+    docsColors,
     numPadColors,
     offColors,
 ]
 
 def runKey(keyIndex):
-    if currLayer == "Clipboard":
-        runClipBoard(keyIndex)
+    if currLayer == "Docs":
+        runDocs(keyIndex)
     else:
         macropad.keyboard.press(*keyBindings[layers.index(currLayer)][keyIndex])
 
 def release(keyIndex):
     macropad.keyboard.release(*keyBindings[layers.index(currLayer)][keyIndex])
+
+def runDocs(keyIndex):
+    easeDuration = 0.1
+    if keyIndex == 11:
+        macropad.keyboard.send(*(key.OPTION, key.FORWARD_SLASH))
+        time.sleep(easeDuration)
+        macropad.keyboard_layout.write("pageless")
+        macropad.keyboard.send(*(key.RETURN, ))
+        time.sleep(easeDuration)
+    else:
+        macropad.keyboard.press(*keyBindings[layers.index(currLayer)][keyIndex])
+
 
 def runClipBoard(keyIndex):
     easeDuration = 0.1
